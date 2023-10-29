@@ -1,0 +1,42 @@
+# Muhammad Arya Java
+# Rakamin - Kalbe Nutritionals Data Engineer Project Based Internship Program
+# Final Task
+# Challenge 3
+
+import mysql.connector
+from mysql.connector import Error
+
+# Koneksi ke database MySQL
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="rakamin"
+)
+cursor = conn.cursor()
+
+try:
+    # SQL statement untuk menyisipkan data ke tabel karyawan
+    insert_query = "INSERT INTO karyawan (first_name, last_name, age, sex, income) VALUES (%s, %s, %s, %s, %s)"
+    values = ("Test", "Tiga", "39", "Male", "5000000")
+
+    # Eksekusi SQL statement
+    cursor.execute(insert_query, values)
+
+    # Melakukan perubahan (commit) pada DB
+    conn.commit()
+    print("Data berhasil disisipkan ke database.")
+
+except Error as e:
+    print("Error:", e)
+
+    # Rollback apabila ada issue
+    conn.rollback()
+
+finally:
+    if conn:
+        # Menutup Koneksi
+        cursor.close()
+        conn.close()
+        print("Koneksi database berhasil ditutup.")
+
